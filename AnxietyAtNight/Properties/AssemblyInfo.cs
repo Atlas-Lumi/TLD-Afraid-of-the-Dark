@@ -18,5 +18,5 @@ using MelonLoader;
 
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
-[assembly: MelonInfo(typeof(AnxietyAtNight.Implementation), "Afraid of the Dark", "1.0", "Atlas Lumi")]
+[assembly: MelonInfo(typeof(AnxietyAtNight.Implementation), "Afraid of the Dark", "1.1", "Atlas Lumi")]
 [assembly: MelonGame("Hinterland", "TheLongDark")]

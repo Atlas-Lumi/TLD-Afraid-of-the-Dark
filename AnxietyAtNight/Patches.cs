@@ -48,7 +48,7 @@ namespace AnxietyAtNight
             }
             private static void DoCameraPulse(float amount)
             {
-                GameManager.GetCameraEffects().HeadachePulse(amount);
+                GameManager.GetCameraEffects().StimPulse(amount);
             }
             private static float GetDistanceToClosestFire()
             {
@@ -56,7 +56,7 @@ namespace AnxietyAtNight
             }
             private static void Play_AfflictionAnxiety()
             {
-                GameManager.GetPlayerVoiceComponent().Play("Play_AnxietyAffliction", Voice.Priority.Critical);
+                GameManager.GetPlayerVoiceComponent().Play("PLAY_ANXIETYAFFLICTION", Voice.Priority.Critical);
             }
             private static void Play_AfflictionAnxietyCured()
             {
