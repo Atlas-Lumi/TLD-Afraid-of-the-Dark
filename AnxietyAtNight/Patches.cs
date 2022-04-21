@@ -46,21 +46,17 @@ namespace AnxietyAtNight
             {
                 return GameManager.GetPlayerInVehicle().IsInside();
             }
-            private static void DoCameraPulse(float amount)
-            {
-                GameManager.GetCameraEffects().StimPulse(amount);
-            }
             private static float GetDistanceToClosestFire()
             {
                 return GameManager.GetFireManagerComponent().GetDistanceToClosestFire(GameManager.GetPlayerTransform().position);
             }
             private static void Play_AfflictionAnxiety()
             {
-                GameManager.GetPlayerVoiceComponent().Play("PLAY_ANXIETYAFFLICTION", Voice.Priority.Critical);
+                GameManager.GetPlayerVoiceComponent().Play("PLAY_ANXIETYAFFLICTION", Voice.Priority.Normal);
             }
             private static void Play_AfflictionAnxietyCured()
             {
-                GameManager.GetPlayerVoiceComponent().Play("Play_VOCatchBreath", Voice.Priority.Critical);
+                GameManager.GetPlayerVoiceComponent().Play("Play_VOCatchBreath", Voice.Priority.Normal);
             }
 
             private static void Prefix(Anxiety __instance)
@@ -83,7 +79,6 @@ namespace AnxietyAtNight
                     {
                         __instance.StartAffliction();
                         Play_AfflictionAnxiety();
-                        DoCameraPulse(1f);
                         affliction = true;
                     }
                     // Close to fire, anxiety removed
@@ -92,7 +87,6 @@ namespace AnxietyAtNight
                         __instance.StopAffliction(true);
                         Play_AfflictionAnxietyCured();
                         AnxietyCuredPopup();
-                        DoCameraPulse(1f);
                         affliction = false;
                     }
                     // Holding lit torch, anxiety removed
@@ -101,7 +95,6 @@ namespace AnxietyAtNight
                         __instance.StopAffliction(true);
                         Play_AfflictionAnxietyCured();
                         AnxietyCuredPopup();
-                        DoCameraPulse(1f);
                         affliction = false;
                     }
                     // Inside a car, anxiety removed
@@ -110,7 +103,6 @@ namespace AnxietyAtNight
                         __instance.StopAffliction(true);
                         Play_AfflictionAnxietyCured();
                         AnxietyCuredPopup();
-                        DoCameraPulse(1f);
                         affliction = false;
                     }
                     // Inside snow shelter, anxiety removed
@@ -119,7 +111,6 @@ namespace AnxietyAtNight
                         __instance.StopAffliction(true);
                         Play_AfflictionAnxietyCured();
                         AnxietyCuredPopup();
-                        DoCameraPulse(1f);
                         affliction = false;
                     }
                     // Inside a building, shelter, or cave, anxiety removed
@@ -128,7 +119,6 @@ namespace AnxietyAtNight
                         __instance.StopAffliction(true);
                         Play_AfflictionAnxietyCured();
                         AnxietyCuredPopup();
-                        DoCameraPulse(1f);
                         affliction = false;
                     }
                 }           
@@ -136,7 +126,6 @@ namespace AnxietyAtNight
                 else if (IsDay()&& affliction)
                 {
                     __instance.StopAffliction(true);
-                    DoCameraPulse(1f);
                     Play_AfflictionAnxietyCured();
                     AnxietyCuredPopup();
                     affliction = false;
