@@ -9,8 +9,6 @@ namespace AnxietyAtNight
         [HarmonyPatch(typeof(Anxiety), "Update")]
         internal class Anxiety_Update
         {
-            private static bool affliction;
-
             public static bool HoldingLitTorch()
             {
                 return (GameManager.GetPlayerManagerComponent().m_ItemInHands && GameManager.GetPlayerManagerComponent().m_ItemInHands.m_TorchItem && GameManager.GetPlayerManagerComponent().m_ItemInHands.m_TorchItem.IsBurning());
@@ -37,9 +35,9 @@ namespace AnxietyAtNight
                 {
                     return true;
                 }
-                else 
-                { 
-                    return false; 
+                else
+                {
+                    return false;
                 }
             }
             private static bool IsInCar()
@@ -59,7 +57,7 @@ namespace AnxietyAtNight
                 GameManager.GetPlayerVoiceComponent().Play("Play_VOCatchBreath", Voice.Priority.Normal);
             }
 
-            private static void Prefix(Anxiety __instance)
+            private static void Postfix(Anxiety __instance)
             {
                 void AnxietyCuredPopup()
                 {
@@ -68,67 +66,35 @@ namespace AnxietyAtNight
 
                 if (IsNight())
                 {
-                    bool scaredConditionFire = GetDistanceToClosestFire() > 3f;
+                    bool scaredConditionFire = GetDistanceToClosestFire() < 3f;
                     bool scaredConditionTorch = HoldingLitTorch();
                     bool scaredConditionInCar = IsInCar();
                     bool scaredConditionShelter = IsInShelter();
                     bool scaredConditionBuilding = IsInBuilding();
 
                     // None of the conditions are met, anxiety added
-                    if (!affliction && scaredConditionFire && !scaredConditionTorch && !scaredConditionInCar && !scaredConditionShelter && !scaredConditionBuilding)
+                    if (!__instance.m_HasAffliction && (!scaredConditionFire && !scaredConditionTorch && !scaredConditionInCar && !scaredConditionShelter && !scaredConditionBuilding))
                     {
                         __instance.StartAffliction();
                         Play_AfflictionAnxiety();
-                        affliction = true;
+                        __instance.m_HasAffliction = true;
                     }
-                    // Close to fire, anxiety removed
-                    else if (affliction && !scaredConditionFire && !scaredConditionTorch && !scaredConditionInCar)
+                    // mmm. comfy.
+                    else if (__instance.m_HasAffliction && (scaredConditionTorch || scaredConditionInCar || scaredConditionShelter || scaredConditionFire || scaredConditionBuilding))
                     {
                         __instance.StopAffliction(true);
                         Play_AfflictionAnxietyCured();
                         AnxietyCuredPopup();
-                        affliction = false;
-                    }
-                    // Holding lit torch, anxiety removed
-                    else if (affliction && scaredConditionFire && scaredConditionTorch && !scaredConditionInCar)
-                    {
-                        __instance.StopAffliction(true);
-                        Play_AfflictionAnxietyCured();
-                        AnxietyCuredPopup();
-                        affliction = false;
-                    }
-                    // Inside a car, anxiety removed
-                    else if (affliction && scaredConditionInCar)
-                    {
-                        __instance.StopAffliction(true);
-                        Play_AfflictionAnxietyCured();
-                        AnxietyCuredPopup();
-                        affliction = false;
-                    }
-                    // Inside snow shelter, anxiety removed
-                    else if (affliction && scaredConditionShelter)
-                    {
-                        __instance.StopAffliction(true);
-                        Play_AfflictionAnxietyCured();
-                        AnxietyCuredPopup();
-                        affliction = false;
-                    }
-                    // Inside a building, shelter, or cave, anxiety removed
-                    else if (affliction && scaredConditionBuilding)
-                    {
-                        __instance.StopAffliction(true);
-                        Play_AfflictionAnxietyCured();
-                        AnxietyCuredPopup();
-                        affliction = false;
+                        __instance.m_HasAffliction = false;
                     }
                 }           
                 // Day time, anxiety removed
-                else if (IsDay()&& affliction)
+                else if (IsDay()&& __instance.m_HasAffliction)
                 {
                     __instance.StopAffliction(true);
                     Play_AfflictionAnxietyCured();
                     AnxietyCuredPopup();
-                    affliction = false;
+                    __instance.m_HasAffliction = false;
                 }              
             }
         }
