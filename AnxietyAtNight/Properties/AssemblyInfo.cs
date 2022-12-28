@@ -1,22 +1,25 @@
-﻿using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using MelonLoader;
+﻿using MelonLoader;
+using System.Reflection;
 
-[assembly: AssemblyTitle("AfraidOfTheDark")]
-[assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("AfraidOfTheDark")]
-[assembly: AssemblyCopyright("Copyright ©  2022")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
+//This is a C# comment. Comments have no impact on compilation.
 
-[assembly: ComVisible(false)]
+[assembly: AssemblyTitle(BuildInfo.ModName)]
+[assembly: AssemblyCopyright($"Created by ModAuthor")]
 
-[assembly: Guid("cc48b3c2-e286-4f97-89f4-a9297eb67ec0")]
+[assembly: AssemblyVersion(BuildInfo.ModVersion)]
+[assembly: AssemblyFileVersion(BuildInfo.ModVersion)]
+[assembly: MelonInfo(typeof(ModNamespace.ModClassInheritingFromMelonMod), BuildInfo.ModName, BuildInfo.ModVersion, BuildInfo.ModAuthor)]
 
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
-[assembly: MelonInfo(typeof(AnxietyAtNight.Implementation), "Afraid of the Dark", "1.1", "Atlas Lumi")]
+//This tells MelonLoader that the mod is only for The Long Dark.
 [assembly: MelonGame("Hinterland", "TheLongDark")]
+
+internal static class BuildInfo
+{
+    internal const string ModName = "Anxiety At Night";
+    internal const string ModAuthor = "Atlas Lumi";
+    /// <summary>
+    /// Version numbers in C# are a set of 1 to 4 positive integers separated by periods.
+    /// Mods typically use 3 numbers. For example: 1.2.1
+    /// </summary>
+    internal const string ModVersion = "2.0.0";
+}
